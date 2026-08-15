@@ -56,11 +56,8 @@ The initial movie collection includes:
 | Genre | Movie |
 |---|---|
 | Action | Die Hard |
-| Action | Spider-Man: Brand New Day |
-| Adventure | Jumanji: Welcome to the Jungle |
 | Animation | Coco |
 | Comedy | The Hangover |
-| Crime | The Godfather |
 | Documentary | The Last Dance |
 | Drama | The Shawshank Redemption |
 | Fantasy | Fantastic Beasts and Where to Find Them |
@@ -68,25 +65,11 @@ The initial movie collection includes:
 | Mystery | The Game |
 | Romance | The Notebook |
 | Science Fiction | The Martian |
-| Thriller | The Silence of the Lambs |
 | War | Saving Private Ryan |
-
-genre,title
-Action,Die Hard
-Animation,Coco
-Comedy,The Hangover
-Documentary,The Last Dance
-Drama,The Shawshank Redemption
-Fantasy,Fantastic Beasts and Where to Find Them
-Horror,The Exorcist
-Mystery,The Game
-Romance,The Notebook
-Science Fiction,The Martian
-War,Saving Private Ryan
-Action,Spider-Man: Brand New Day
-Adventure,Jumanji: Welcome to the Jungle
-Crime,The Godfather
-Mystery,SixSe7en
+| Action | Spider-Man: Brand New Day |
+| Adventure | Jumanji: Welcome to the Jungle |
+| Crime | The Godfather |
+| Mystery | SixSe7en |
 
 ## Technologies Used
 
