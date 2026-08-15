@@ -4,7 +4,7 @@ export default function HomePage() {
   return (
     <main className="min-h-screen bg-[#06111D] text-white">
 
-      <section className="flex min-h-[460px] items-center justify-center px-6 py-20 text-center">
+      <section className="flex min-h-115 items-center justify-center px-6 py-20 text-center">
         <div className="max-w-3xl">
 
           <div className="mb-5 text-5xl">
