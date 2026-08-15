@@ -71,6 +71,23 @@ The initial movie collection includes:
 | Thriller | The Silence of the Lambs |
 | War | Saving Private Ryan |
 
+genre,title
+Action,Die Hard
+Animation,Coco
+Comedy,The Hangover
+Documentary,The Last Dance
+Drama,The Shawshank Redemption
+Fantasy,Fantastic Beasts and Where to Find Them
+Horror,The Exorcist
+Mystery,The Game
+Romance,The Notebook
+Science Fiction,The Martian
+War,Saving Private Ryan
+Action,Spider-Man: Brand New Day
+Adventure,Jumanji: Welcome to the Jungle
+Crime,The Godfather
+Mystery,SixSe7en
+
 ## Technologies Used
 
 - **Next.js** – React framework used to build the website
