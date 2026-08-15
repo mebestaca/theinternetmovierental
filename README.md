@@ -1,36 +1,80 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Cinema Atlas
 
-## Getting Started
+> An online movie catalog that helps users discover and explore films from around the world.
 
-First, run the development server:
+## Project Information
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Authors:** Marc Edison Estaca, Joshua Dyck, Reiner Justin Realica
+- **Version:** 1.0.0
+- **Project:** Cinema Atlas
+- **Year:** 2026
+- **Status:** Completed
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## About
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Cinema Atlas is a simple online movie catalog built with Next.js, React, TypeScript, Tailwind CSS, and Supabase.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+The website allows users to browse movies from different genres and search, filter, sort, add, edit, and delete movies.
 
-## Learn More
+## Features
 
-To learn more about Next.js, take a look at the following resources:
+- Browse a collection of movies
+- Search movies by title or actor
+- Filter movies by genre
+- Sort movies by release date
+- Add new movies
+- Edit existing movies
+- Delete movies
+- Store movie information using Supabase
+- Responsive layout for different screen sizes
+- Simple navigation with Home and Movies pages
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Movie Genres
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Cinema Atlas currently includes 15 core movie genres:
 
-## Deploy on Vercel
+- Action
+- Adventure
+- Animation
+- Comedy
+- Crime
+- Documentary
+- Drama
+- Fantasy
+- Horror
+- Mystery
+- Romance
+- Science Fiction
+- Thriller
+- War
+- Western
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Example Movies
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The initial movie collection includes:
+
+| Genre | Movie |
+|---|---|
+| Action | Die Hard |
+| Action | Spider-Man: Brand New Day |
+| Adventure | Jumanji: Welcome to the Jungle |
+| Animation | Coco |
+| Comedy | The Hangover |
+| Crime | The Godfather |
+| Documentary | The Last Dance |
+| Drama | The Shawshank Redemption |
+| Fantasy | Fantastic Beasts and Where to Find Them |
+| Horror | The Exorcist |
+| Mystery | The Game |
+| Romance | The Notebook |
+| Science Fiction | The Martian |
+| Thriller | The Silence of the Lambs |
+| War | Saving Private Ryan |
+
+## Technologies Used
+
+- **Next.js** – React framework used to build the website
+- **React** – Used to create the user interface
+- **TypeScript** – Provides type safety
+- **Tailwind CSS** – Used for styling
+- **Supabase** – Used as the database and backend service
