@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { createClient } from "@/lib/supabase/client";
 
 type Movie = {
   id: number;
@@ -30,236 +31,9 @@ const genreColors: Record<string, string> = {
     Western: "bg-amber-500/10 text-amber-400 border-amber-500/20",
 };
 
-const initialMovies: Movie[] = [
-  {
-    id: 1,
-    title: "Die Hard",
-    image:
-      "https://image.tmdb.org/t/p/w500/yFihWxQcmqcaBR31QM6Y8gT6aYV.jpg",
-    releaseDate: "1988-07-20",
-    genre: "Action",
-    actors: [
-      "Bruce Willis",
-      "Alan Rickman",
-      "Bonnie Bedelia",
-      "Reginald VelJohnson",
-    ],
-  },
-
-  {
-    id: 2,
-    title: "Jumanji: Welcome to the Jungle",
-    image:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLr1qVKhCy8dRRs1MJZje_UOQ_ExL7bz8CaHr7ofqQsz5j7QrLBxgtIWFKcY6H-NxExd2Hng&s=10",
-    releaseDate: "2017-12-20",
-    genre: "Adventure",
-    actors: [
-      "Dwayne Johnson",
-      "Kevin Hart",
-      "Jack Black",
-      "Karen Gillan",
-    ],
-  },
-
-  {
-    id: 3,
-    title: "Coco",
-    image:
-      "https://image.tmdb.org/t/p/w500/gGEsBPAijhVUFoiNpgZXqRVWJt2.jpg",
-    releaseDate: "2017-11-22",
-    genre: "Animation",
-    actors: [
-      "Anthony Gonzalez",
-      "Gael García Bernal",
-      "Benjamin Bratt",
-      "Alanna Ubach",
-    ],
-  },
-
-  {
-    id: 4,
-    title: "The Hangover",
-    image:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSW_QVbb_2BXCjG3AO4VXa56n0MOojFs2f2xVnNM8nDnSrsa6M4IUnbRFPQg5lqe4bcmmg9&s=10",
-    releaseDate: "2009-06-05",
-    genre: "Comedy",
-    actors: [
-      "Bradley Cooper",
-      "Ed Helms",
-      "Zach Galifianakis",
-      "Justin Bartha",
-    ],
-  },
-
-  {
-    id: 5,
-    title: "The Godfather",
-    image:
-      "https://image.tmdb.org/t/p/w500/3bhkrj58Vtu7enYsRolD1fZdja1.jpg",
-    releaseDate: "1972-03-24",
-    genre: "Crime",
-    actors: [
-      "Marlon Brando",
-      "Al Pacino",
-      "James Caan",
-      "Robert Duvall",
-    ],
-  },
-
-  {
-    id: 6,
-    title: "The Last Dance",
-    image:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK2XqnNxJPvvLMiRjxBw-1cRCapgbMM6D6u6hfV3x149sideMBhkNsnRlv5zxLiUFFCL74gA&s=10",
-    releaseDate: "2020-04-19",
-    genre: "Documentary",
-    actors: [
-      "Michael Jordan",
-      "Scottie Pippen",
-      "Dennis Rodman",
-      "Phil Jackson",
-    ],
-  },
-
-  {
-    id: 7,
-    title: "The Shawshank Redemption",
-    image:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhGnXtIxFhLVDu_Y9e4WV8J10B0Itb-DHdSGZINXmi0Zt1gWfmBKhJ3dJm04_vHdASVK2-Uw&s=10",
-    releaseDate: "1994-09-23",
-    genre: "Drama",
-    actors: [
-      "Tim Robbins",
-      "Morgan Freeman",
-      "Bob Gunton",
-      "William Sadler",
-    ],
-  },
-
-  {
-    id: 8,
-    title: "Fantastic Beasts and Where to Find Them",
-    image:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPQurmPI4ZiNLF13uYDrQV02-oAZcx3Zv5x0bxByymSj0ek1YWG9Q0CfvAFMhlbDsx9rtz&s=10",
-    releaseDate: "2016-11-18",
-    genre: "Fantasy",
-    actors: [
-      "Eddie Redmayne",
-      "Katherine Waterston",
-      "Dan Fogler",
-      "Colin Farrell",
-    ],
-  },
-
-  {
-    id: 9,
-    title: "The Exorcist",
-    image:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRv5TdxmHstX3epjWwfiKBjBQ_lA4AFAFSbveVUBvvusGO2MSdv9zijmfgBHQe6M132m2l3pg&s=10",
-    releaseDate: "1973-12-26",
-    genre: "Horror",
-    actors: [
-      "Ellen Burstyn",
-      "Max von Sydow",
-      "Linda Blair",
-      "Jason Miller",
-    ],
-  },
-
-  {
-    id: 10,
-    title: "Se7en",
-    image:
-      "https://image.tmdb.org/t/p/w500/6yoghtyTpznpBik8EngEmJskVUO.jpg",
-    releaseDate: "1995-09-22",
-    genre: "Mystery",
-    actors: [
-      "Brad Pitt",
-      "Morgan Freeman",
-      "Gwyneth Paltrow",
-      "Kevin Spacey",
-    ],
-  },
-
-  {
-    id: 11,
-    title: "The Notebook",
-    image:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYr22790LETzNWpnIg13MNG69yvUqfHI0OJb-iBIVHwRn0yah8BdvbUYtCO0y2L52RSdISLw&s=10",
-    releaseDate: "2004-06-25",
-    genre: "Romance",
-    actors: [
-      "Ryan Gosling",
-      "Rachel McAdams",
-      "James Garner",
-      "Gena Rowlands",
-    ],
-  },
-
-  {
-    id: 12,
-    title: "The Martian",
-    image:
-      "https://image.tmdb.org/t/p/w500/5BHuvQ6p9kfc091Z8RiFNhCwL4b.jpg",
-    releaseDate: "2015-10-02",
-    genre: "Science Fiction",
-    actors: [
-      "Matt Damon",
-      "Jessica Chastain",
-      "Kristen Wiig",
-      "Jeff Daniels",
-    ],
-  },
-
-  {
-    id: 13,
-    title: "The Game",
-    image:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJW7AyEZxUqmHbXMye48SjSitjh-uJoXEKI_egOv0zTGxd9wysf81mkZKc_-Q3jnz3Ls6N&s=10",
-    releaseDate: "1997-09-12",
-    genre: "Thriller",
-    actors: [
-      "Michael Douglas",
-      "Sean Penn",
-      "Deborah Kara Unger",
-      "James Rebhorn",
-    ],
-  },
-
-  {
-    id: 14,
-    title: "Saving Private Ryan",
-    image:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTcoCGTGE1e4XiULi_yebQKpH1j5tdjDn-TQlkAmVD4D6e_18NFSBtKW085v1VVfMBpUCrO&s=10",
-    releaseDate: "1998-07-24",
-    genre: "War",
-    actors: [
-      "Tom Hanks",
-      "Matt Damon",
-      "Tom Sizemore",
-      "Edward Burns",
-    ],
-  },
-
-  {
-    id: 15,
-    title: "The Good, the Bad and the Ugly",
-    image:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3MkB5mnBKa1Mw_y7RH2nWTBWOiU1ppquAQbkWWZBwgiSlOqLjgEgoaua6ubWh3051C6Av&s=10",
-    releaseDate: "1966-12-23",
-    genre: "Western",
-    actors: [
-      "Clint Eastwood",
-      "Eli Wallach",
-      "Lee Van Cleef",
-      "Aldo Giuffrè",
-    ],
-  },
-];
-
 export default function MoviesPage() {
   // Movies
-  const [movies, setMovies] = useState<Movie[]>(initialMovies);
+  const [movies, setMovies] = useState<Movie[]>([]);
 
   // Search and filters
   const [search, setSearch] = useState("");
@@ -276,6 +50,36 @@ export default function MoviesPage() {
   const [genre, setGenre] = useState("");
   const [image, setImage] = useState("");
   const [actors, setActors] = useState("");
+
+  // Supbase
+  const supabase = createClient();
+
+  useEffect(() => {
+    loadMovies();
+  }, []);
+
+  async function loadMovies() {
+    const { data, error } = await supabase
+      .from("movies")
+      .select("*")
+      .order("release_date", { ascending: false });
+  
+    if (error) {
+      console.error(error);
+      return;
+    }
+  
+    const formattedMovies: Movie[] = data.map((movie) => ({
+      id: movie.id,
+      title: movie.title,
+      image: movie.image,
+      releaseDate: movie.release_date,
+      genre: movie.genre,
+      actors: movie.actors,
+    }));
+  
+    setMovies(formattedMovies);
+  }
 
   function openAddForm() {
     setEditingMovieId(null);
@@ -322,7 +126,7 @@ export default function MoviesPage() {
     setActors("");
   }
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
     const movieData = {
@@ -337,29 +141,52 @@ export default function MoviesPage() {
     };
 
     if (editingMovieId !== null) {
-      setMovies((currentMovies) =>
-        currentMovies.map((movie) =>
-          movie.id === editingMovieId
-            ? {
-                ...movie,
-                ...movieData,
-              }
-            : movie
-        )
-      );
+        const { error } = await supabase
+        .from("movies")
+        .update({
+          title,
+          image,
+          release_date: releaseDate,
+          genre,
+          actors: actors
+            .split(",")
+            .map((actor) => actor.trim())
+            .filter((actor) => actor !== ""),
+        })
+        .eq("id", editingMovieId);
+      
+      if (error) {
+        console.error(error);
+        return;
+      }
+      
+      await loadMovies();
     } else {
-      const newMovie: Movie = {
-        id: Date.now(),
-        ...movieData,
-      };
-
-      setMovies((currentMovies) => [newMovie, ...currentMovies]);
+        const { error } = await supabase
+        .from("movies")
+        .insert({
+          title,
+          image,
+          release_date: releaseDate,
+          genre,
+          actors: actors
+            .split(",")
+            .map((actor) => actor.trim())
+            .filter((actor) => actor !== ""),
+        });
+    
+      if (error) {
+        console.error(error);
+        return;
+      }
+    
+      await loadMovies();
     }
 
     closeForm();
   }
 
-  function handleDelete(id: number) {
+  async function handleDelete(id: number) {
     const confirmed = window.confirm(
       "Are you sure you want to delete this movie?"
     );
@@ -368,10 +195,18 @@ export default function MoviesPage() {
       return;
     }
 
-    setMovies((currentMovies) =>
-      currentMovies.filter((movie) => movie.id !== id)
-    );
-  }
+    const { error } = await supabase
+    .from("movies")
+    .delete()
+    .eq("id", id);
+
+    if (error) {
+        console.error(error);
+        return;
+    }
+
+    await loadMovies();
+    }
 
   const filteredMovies = movies
     .filter((movie) => {
