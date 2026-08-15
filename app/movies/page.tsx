@@ -566,7 +566,7 @@ export default function MoviesPage() {
                   className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
                 />
 
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0B1928] via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-linear-to-t from-[#0B1928] via-transparent to-transparent" />
 
               </div>
 
