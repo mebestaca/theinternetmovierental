@@ -15,7 +15,7 @@ export default function Navbar() {
 
         <Link href="/" className="flex items-center gap-4">
 
-          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 text-2xl shadow-lg shadow-amber-500/30">
+          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-linear-to-br from-amber-400 to-orange-500 text-2xl shadow-lg shadow-amber-500/30">
             🌍
           </div>
 
