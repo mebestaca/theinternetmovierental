@@ -1,7 +1,14 @@
-import Image from "next/image";
+import Navbar from "./components/Navbar";
 
 export default function Home() {
   return (
-    <main></main>
+    <>
+      <Navbar />
+
+      <main>
+        <h2>Welcome to Movie List</h2>
+      </main>
+
+    </>
   );
 }
