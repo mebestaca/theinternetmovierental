@@ -83,7 +83,7 @@ export default function MoviesPage() {
 
     setMovies(formattedMovies);
   }
-
+// the function which creates the form for adding a new movie into the catalog
   function openAddForm() {
     setEditingMovieId(null);
 
@@ -101,6 +101,7 @@ export default function MoviesPage() {
     });
   }
 
+  // function to edit pre-existing movies already in the catalog
   function openEditForm(movie: Movie) {
     setEditingMovieId(movie.id);
 
@@ -118,6 +119,7 @@ export default function MoviesPage() {
     });
   }
 
+  // closes forms
   function closeForm() {
     setShowForm(false);
     setEditingMovieId(null);
