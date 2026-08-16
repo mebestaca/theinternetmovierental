@@ -1,3 +1,7 @@
+// 2026, August 15th
+// Edison, Justin, Joshua
+// the "terms" page is a placeholder for now, but will be where they can find the terms which detail exactly what they have left after they've signed their life away by using this website.
+//
 import ComingSoon from "../components/ComingSoon";
 
 export default function WatchlistPage() {

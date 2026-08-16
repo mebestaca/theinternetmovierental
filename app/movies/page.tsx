@@ -1,3 +1,7 @@
+// 2026, August 15th
+// Edison, Justin, Joshua
+// This is the movies page which handles the CRUD interface on this website. This page fetches remote db records from supabase when the page is loaded initially and gets user inputs when a user interacts with the website. It also maps our the supabase data into local state objects, handles the filtering, and date sorting algorithims  on the client side. This page processes asynchronous db operations with form validation as well. The page renders the movie catalog with live search controls, dynamic grid cards for every movie, and a clear filters button. It also includes a new movie creation form for addding movies to the catalog.
+//
 "use client";
 
 import { useState, useEffect } from "react";
@@ -13,22 +17,21 @@ type Movie = {
 };
 
 const genreColors: Record<string, string> = {
-    Action: "bg-red-500/10 text-red-400 border-red-500/20",
-    Adventure: "bg-orange-500/10 text-orange-400 border-orange-500/20",
-    Animation: "bg-pink-500/10 text-pink-400 border-pink-500/20",
-    Comedy: "bg-yellow-500/10 text-yellow-400 border-yellow-500/20",
-    Crime: "bg-slate-500/10 text-slate-300 border-slate-500/20",
-    Documentary: "bg-cyan-500/10 text-cyan-400 border-cyan-500/20",
-    Drama: "bg-purple-500/10 text-purple-400 border-purple-500/20",
-    Fantasy: "bg-violet-500/10 text-violet-400 border-violet-500/20",
-    Horror: "bg-rose-500/10 text-rose-400 border-rose-500/20",
-    Mystery: "bg-indigo-500/10 text-indigo-400 border-indigo-500/20",
-    Romance: "bg-fuchsia-500/10 text-fuchsia-400 border-fuchsia-500/20",
-    "Science Fiction":
-      "bg-blue-500/10 text-blue-400 border-blue-500/20",
-    Thriller: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
-    War: "bg-stone-500/10 text-stone-300 border-stone-500/20",
-    Western: "bg-amber-500/10 text-amber-400 border-amber-500/20",
+  Action: "bg-red-500/10 text-red-400 border-red-500/20",
+  Adventure: "bg-orange-500/10 text-orange-400 border-orange-500/20",
+  Animation: "bg-pink-500/10 text-pink-400 border-pink-500/20",
+  Comedy: "bg-yellow-500/10 text-yellow-400 border-yellow-500/20",
+  Crime: "bg-slate-500/10 text-slate-300 border-slate-500/20",
+  Documentary: "bg-cyan-500/10 text-cyan-400 border-cyan-500/20",
+  Drama: "bg-purple-500/10 text-purple-400 border-purple-500/20",
+  Fantasy: "bg-violet-500/10 text-violet-400 border-violet-500/20",
+  Horror: "bg-rose-500/10 text-rose-400 border-rose-500/20",
+  Mystery: "bg-indigo-500/10 text-indigo-400 border-indigo-500/20",
+  Romance: "bg-fuchsia-500/10 text-fuchsia-400 border-fuchsia-500/20",
+  "Science Fiction": "bg-blue-500/10 text-blue-400 border-blue-500/20",
+  Thriller: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
+  War: "bg-stone-500/10 text-stone-300 border-stone-500/20",
+  Western: "bg-amber-500/10 text-amber-400 border-amber-500/20",
 };
 
 export default function MoviesPage() {
@@ -63,12 +66,12 @@ export default function MoviesPage() {
       .from("movies")
       .select("*")
       .order("release_date", { ascending: false });
-  
+
     if (error) {
       console.error(error);
       return;
     }
-  
+
     const formattedMovies: Movie[] = data.map((movie) => ({
       id: movie.id,
       title: movie.title,
@@ -77,7 +80,7 @@ export default function MoviesPage() {
       genre: movie.genre,
       actors: movie.actors,
     }));
-  
+
     setMovies(formattedMovies);
   }
 
@@ -141,7 +144,7 @@ export default function MoviesPage() {
     };
 
     if (editingMovieId !== null) {
-        const { error } = await supabase
+      const { error } = await supabase
         .from("movies")
         .update({
           title,
@@ -154,32 +157,30 @@ export default function MoviesPage() {
             .filter((actor) => actor !== ""),
         })
         .eq("id", editingMovieId);
-      
+
       if (error) {
         console.error(error);
         return;
       }
-      
+
       await loadMovies();
     } else {
-        const { error } = await supabase
-        .from("movies")
-        .insert({
-          title,
-          image,
-          release_date: releaseDate,
-          genre,
-          actors: actors
-            .split(",")
-            .map((actor) => actor.trim())
-            .filter((actor) => actor !== ""),
-        });
-    
+      const { error } = await supabase.from("movies").insert({
+        title,
+        image,
+        release_date: releaseDate,
+        genre,
+        actors: actors
+          .split(",")
+          .map((actor) => actor.trim())
+          .filter((actor) => actor !== ""),
+      });
+
       if (error) {
         console.error(error);
         return;
       }
-    
+
       await loadMovies();
     }
 
@@ -188,25 +189,22 @@ export default function MoviesPage() {
 
   async function handleDelete(id: number) {
     const confirmed = window.confirm(
-      "Are you sure you want to delete this movie?"
+      "Are you sure you want to delete this movie?",
     );
 
     if (!confirmed) {
       return;
     }
 
-    const { error } = await supabase
-    .from("movies")
-    .delete()
-    .eq("id", id);
+    const { error } = await supabase.from("movies").delete().eq("id", id);
 
     if (error) {
-        console.error(error);
-        return;
+      console.error(error);
+      return;
     }
 
     await loadMovies();
-    }
+  }
 
   const filteredMovies = movies
     .filter((movie) => {
@@ -214,28 +212,22 @@ export default function MoviesPage() {
 
       const matchesSearch =
         movie.title.toLowerCase().includes(searchText) ||
-        movie.actors.some((actor) =>
-          actor.toLowerCase().includes(searchText)
-        );
+        movie.actors.some((actor) => actor.toLowerCase().includes(searchText));
 
-      const matchesGenre =
-        genreFilter === "All" ||
-        movie.genre === genreFilter;
+      const matchesGenre = genreFilter === "All" || movie.genre === genreFilter;
 
       return matchesSearch && matchesGenre;
     })
     .sort((a, b) => {
       if (sortBy === "newest") {
         return (
-          new Date(b.releaseDate).getTime() -
-          new Date(a.releaseDate).getTime()
+          new Date(b.releaseDate).getTime() - new Date(a.releaseDate).getTime()
         );
       }
 
       if (sortBy === "oldest") {
         return (
-          new Date(a.releaseDate).getTime() -
-          new Date(b.releaseDate).getTime()
+          new Date(a.releaseDate).getTime() - new Date(b.releaseDate).getTime()
         );
       }
 
@@ -244,18 +236,14 @@ export default function MoviesPage() {
 
   return (
     <main className="min-h-screen bg-[#06111D] px-6 py-10 text-white">
-
       {/* PAGE HEADER */}
       <div className="mx-auto mb-8 flex max-w-7xl flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
-
         <div>
           <p className="mb-2 text-xs font-semibold uppercase tracking-[0.3em] text-amber-400">
             Cinema Atlas Collection
           </p>
 
-          <h1 className="text-4xl font-bold tracking-tight">
-            Movies
-          </h1>
+          <h1 className="text-4xl font-bold tracking-tight">Movies</h1>
 
           <p className="mt-2 text-slate-400">
             Discover and explore movies from around the world.
@@ -268,14 +256,11 @@ export default function MoviesPage() {
         >
           + Add Movie
         </button>
-
       </div>
 
       {/* SEARCH + FILTERS */}
       <div className="mx-auto mb-8 max-w-7xl rounded-xl border border-slate-800 bg-[#0B1928] p-5">
-
         <div className="grid gap-4 md:grid-cols-3">
-
           {/* SEARCH */}
           <div>
             <label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-slate-500">
@@ -283,7 +268,6 @@ export default function MoviesPage() {
             </label>
 
             <div className="relative">
-
               <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500">
                 🔍
               </span>
@@ -295,13 +279,11 @@ export default function MoviesPage() {
                 placeholder="Search title or actor..."
                 className="w-full rounded-lg border border-slate-700 bg-[#06111D] py-3 pl-11 pr-4 text-white outline-none placeholder:text-slate-600 focus:border-amber-400"
               />
-
             </div>
           </div>
 
           {/* GENRE */}
           <div>
-
             <label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-slate-500">
               Genre
             </label>
@@ -328,12 +310,10 @@ export default function MoviesPage() {
               <option value="War">War</option>
               <option value="Western">Western</option>
             </select>
-
           </div>
 
           {/* SORT */}
           <div>
-
             <label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-slate-500">
               Sort By
             </label>
@@ -346,41 +326,28 @@ export default function MoviesPage() {
               <option value="newest">Newest Releases</option>
               <option value="oldest">Oldest Releases</option>
             </select>
-
           </div>
-
         </div>
 
         {/* RESULTS COUNT */}
         <div className="mt-4 border-t border-slate-800 pt-4">
-
           <p className="text-sm text-slate-500">
             Showing{" "}
             <span className="font-semibold text-white">
               {filteredMovies.length}
             </span>{" "}
-            {filteredMovies.length === 1
-              ? "movie"
-              : "movies"}
+            {filteredMovies.length === 1 ? "movie" : "movies"}
           </p>
-
         </div>
-
       </div>
 
       {/* ADD / EDIT FORM */}
       {showForm && (
-
         <div className="mx-auto mb-8 max-w-7xl rounded-xl border border-slate-800 bg-[#0B1928] p-6">
-
           <div className="mb-6 flex items-center justify-between">
-
             <div>
-
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-amber-400">
-                {editingMovieId !== null
-                  ? "Edit Movie"
-                  : "New Movie"}
+                {editingMovieId !== null ? "Edit Movie" : "New Movie"}
               </p>
 
               <h2 className="mt-1 text-2xl font-bold">
@@ -388,7 +355,6 @@ export default function MoviesPage() {
                   ? "Update movie information"
                   : "Add a new movie"}
               </h2>
-
             </div>
 
             <button
@@ -397,17 +363,11 @@ export default function MoviesPage() {
             >
               ×
             </button>
-
           </div>
 
-          <form
-            onSubmit={handleSubmit}
-            className="grid gap-5 md:grid-cols-2"
-          >
-
+          <form onSubmit={handleSubmit} className="grid gap-5 md:grid-cols-2">
             {/* TITLE */}
             <div>
-
               <label className="mb-2 block text-sm font-medium text-slate-300">
                 Movie Title
               </label>
@@ -420,12 +380,10 @@ export default function MoviesPage() {
                 required
                 className="w-full rounded-lg border border-slate-700 bg-[#06111D] px-4 py-3 text-white outline-none placeholder:text-slate-600 focus:border-amber-400"
               />
-
             </div>
 
             {/* RELEASE DATE */}
             <div>
-
               <label className="mb-2 block text-sm font-medium text-slate-300">
                 Release Date
               </label>
@@ -437,12 +395,10 @@ export default function MoviesPage() {
                 required
                 className="w-full rounded-lg border border-slate-700 bg-[#06111D] px-4 py-3 text-white outline-none focus:border-amber-400"
               />
-
             </div>
 
             {/* GENRE */}
             <div>
-
               <label className="mb-2 block text-sm font-medium text-slate-300">
                 Genre
               </label>
@@ -453,10 +409,7 @@ export default function MoviesPage() {
                 required
                 className="w-full rounded-lg border border-slate-700 bg-[#06111D] px-4 py-3 text-white outline-none focus:border-amber-400"
               >
-
-                <option value="">
-                  Select Genre
-                </option>
+                <option value="">Select Genre</option>
 
                 <option value="Action">Action</option>
                 <option value="Adventure">Adventure</option>
@@ -473,14 +426,11 @@ export default function MoviesPage() {
                 <option value="Thriller">Thriller</option>
                 <option value="War">War</option>
                 <option value="Western">Western</option>
-
               </select>
-
             </div>
 
             {/* POSTER URL */}
             <div>
-
               <label className="mb-2 block text-sm font-medium text-slate-300">
                 Poster URL
               </label>
@@ -493,12 +443,10 @@ export default function MoviesPage() {
                 required
                 className="w-full rounded-lg border border-slate-700 bg-[#06111D] px-4 py-3 text-white outline-none placeholder:text-slate-600 focus:border-amber-400"
               />
-
             </div>
 
             {/* ACTORS */}
             <div className="md:col-span-2">
-
               <label className="mb-2 block text-sm font-medium text-slate-300">
                 Actors
               </label>
@@ -515,19 +463,15 @@ export default function MoviesPage() {
               <p className="mt-2 text-xs text-slate-600">
                 Separate actor names with commas.
               </p>
-
             </div>
 
             {/* FORM BUTTONS */}
             <div className="flex gap-3 md:col-span-2">
-
               <button
                 type="submit"
                 className="rounded-lg bg-amber-400 px-6 py-3 font-semibold text-slate-950 transition hover:bg-amber-300"
               >
-                {editingMovieId !== null
-                  ? "Save Changes"
-                  : "Add Movie"}
+                {editingMovieId !== null ? "Save Changes" : "Add Movie"}
               </button>
 
               <button
@@ -537,29 +481,21 @@ export default function MoviesPage() {
               >
                 Cancel
               </button>
-
             </div>
-
           </form>
-
         </div>
       )}
 
       {/* MOVIE GRID */}
       {filteredMovies.length > 0 ? (
-
         <div className="mx-auto grid max-w-7xl gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-
           {filteredMovies.map((movie) => (
-
             <div
               key={movie.id}
               className="group overflow-hidden rounded-xl border border-slate-800 bg-[#0B1928] shadow-lg transition duration-300 hover:-translate-y-1 hover:border-slate-700 hover:shadow-2xl"
             >
-
               {/* POSTER */}
               <div className="relative h-80 overflow-hidden">
-
                 <img
                   src={movie.image}
                   alt={movie.title}
@@ -567,59 +503,44 @@ export default function MoviesPage() {
                 />
 
                 <div className="absolute inset-0 bg-linear-to-t from-[#0B1928] via-transparent to-transparent" />
-
               </div>
 
               {/* MOVIE INFORMATION */}
               <div className="p-5">
-
-                <h2 className="truncate text-xl font-bold">
-                  {movie.title}
-                </h2>
+                <h2 className="truncate text-xl font-bold">{movie.title}</h2>
 
                 <div className="mt-3 flex items-center gap-2">
-
-                <span className={`rounded-full border px-3 py-1 text-xs font-medium ${
-                    genreColors[movie.genre] ||
-                    "border-slate-700 bg-slate-500/10 text-slate-400"
+                  <span
+                    className={`rounded-full border px-3 py-1 text-xs font-medium ${
+                      genreColors[movie.genre] ||
+                      "border-slate-700 bg-slate-500/10 text-slate-400"
                     }`}
-                >
+                  >
                     {movie.genre}
-                </span>
+                  </span>
 
                   <span className="text-sm text-slate-500">
                     {movie.releaseDate}
                   </span>
-
                 </div>
 
                 {/* ACTORS */}
                 <div className="mt-5">
-
                   <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-slate-500">
                     Cast
                   </p>
 
                   <div className="space-y-1">
-
                     {movie.actors.map((actor) => (
-
-                      <p
-                        key={actor}
-                        className="text-sm text-slate-300"
-                      >
+                      <p key={actor} className="text-sm text-slate-300">
                         {actor}
                       </p>
-
                     ))}
-
                   </div>
-
                 </div>
 
                 {/* ACTION BUTTONS */}
                 <div className="mt-6 flex gap-3 border-t border-slate-800 pt-4">
-
                   <button
                     onClick={() => openEditForm(movie)}
                     className="flex-1 rounded-lg border border-slate-700 px-4 py-2 text-sm font-medium text-slate-300 transition hover:border-blue-500 hover:bg-blue-500/10 hover:text-blue-400"
@@ -633,34 +554,22 @@ export default function MoviesPage() {
                   >
                     Delete
                   </button>
-
                 </div>
-
               </div>
-
             </div>
-
           ))}
-
         </div>
-
       ) : (
-
         /* NO RESULTS */
         <div className="mx-auto max-w-7xl rounded-xl border border-dashed border-slate-800 py-16 text-center">
+          <div className="text-5xl">🎬</div>
 
-          <div className="text-5xl">
-            🎬
-          </div>
-
-          <h2 className="mt-5 text-xl font-semibold">
-            No movies found
-          </h2>
+          <h2 className="mt-5 text-xl font-semibold">No movies found</h2>
 
           <p className="mt-2 text-slate-500">
             Try changing your search or filter.
           </p>
-
+          {/* clear filters button  */}
           <button
             onClick={() => {
               setSearch("");
@@ -671,10 +580,8 @@ export default function MoviesPage() {
           >
             Clear Filters
           </button>
-
         </div>
       )}
-
     </main>
   );
 }

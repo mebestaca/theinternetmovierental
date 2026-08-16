@@ -1,3 +1,7 @@
+// 2026, August 15th
+// Edison, Justin, Joshua
+// the "About" page is a placeholder for now, but will eventually contain information about the app and how the company got started.
+//
 import ComingSoon from "../components/ComingSoon";
 
 export default function WatchlistPage() {

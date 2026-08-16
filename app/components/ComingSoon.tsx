@@ -1,8 +1,13 @@
+// 2026, August 15th
+// Edison, Justin, Joshua
+// this component is used to add a placeholder content section to unfinished pages. This component works by accepting parameters for how the comming soon section should look so that way the format of the comming soon content is standard but the content can be tailored to the respective pages. it also provides a form for each page to notify the user of when the page will be finished.
+//
 "use client";
 
 import { useState } from "react";
 import Link from "next/link";
 
+// defines the inputs and optional properties for all peieces of the component
 interface ComingSoonProps {
   title?: string;
   accent?: string;
@@ -24,9 +29,11 @@ export default function ComingSoon({
   backLabel = "Back to home",
   onNotify,
 }: ComingSoonProps) {
+  // initializes email input and submission tracking
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
 
+  // handles form submission, logic, input validation, triggers the notification callback, and updates submission UI state.
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email.trim()) return;
@@ -35,8 +42,8 @@ export default function ComingSoon({
   };
 
   return (
+    // bunch-o-stylin'
     <section className="relative flex flex-1 items-center justify-center overflow-hidden bg-[#06111D] px-8 py-24 text-white">
-
       <div className="pointer-events-none absolute left-1/2 top-1/2 h-144` w-xl -translate-x-1/2 -translate-y-1/2 rounded-full bg-linear-to-br from-amber-400/20 via-orange-500/10 to-transparent blur-3xl" />
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(148,163,184,0.15)_1px,transparent_0)] bg-size-[32px_32px] opacity-40" />
 
@@ -56,10 +63,10 @@ export default function ComingSoon({
         <p className="mt-6 max-w-md text-sm leading-relaxed text-slate-400">
           {description}
         </p>
-
+        {/* this checks if an email has been submitted, and determines whether to show an email submission form or success message */}
         {submitted ? (
           <div className="mt-10 rounded-xl border border-amber-400/30 bg-amber-400/10 px-6 py-4 text-sm font-medium text-amber-300">
-            You're on the list — we'll be in touch.
+            {"You're on the list — we'll be in touch."}
           </div>
         ) : (
           <form
@@ -85,6 +92,7 @@ export default function ComingSoon({
 
         <div className="mt-14 flex items-center gap-6 text-[10px] font-medium uppercase tracking-[0.3em] text-slate-500">
           <span className="h-px w-10 bg-slate-700" />
+          {/* adding a link back */}
           <Link href={backHref} className="transition hover:text-amber-300">
             {backLabel}
           </Link>

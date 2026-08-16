@@ -1,3 +1,7 @@
+// 2026, August 15th
+// Edison, Justin, Joshua
+// the "FAQ" page is a placeholder for now, but will in the future include frequently asked questions.
+//
 import ComingSoon from "../components/ComingSoon";
 
 export default function WatchlistPage() {
